@@ -1,0 +1,119 @@
+import java.util.*;
+
+public class SariSariStore {
+    static Scanner input = new Scanner(System.in);
+
+    static String[] items = {
+        "Coke", "Pepsi", "Sprite", "Royal", "Mountain Dew",
+        "Bread", "Pandesal", "Loaf Bread", "Noodles", "Lucky Me",
+        "Candy", "Chocolate", "Lollipop", "Gum", "Marshmallow",
+        "Coffee", "Milk", "Tea", "Juice", "Water",
+        "Chips", "Biscuits", "Crackers", "Cookies", "Popcorn",
+        "Soap", "Shampoo", "Toothpaste", "Detergent", "Lotion"
+    };
+
+    static double[] prices = {
+        20, 20, 20, 22, 25,
+        10, 5, 35, 15, 18,
+        5, 25, 3, 2, 10,
+        25, 30, 12, 20, 15,
+        15, 12, 10, 20, 18,
+        20, 8, 35, 25, 40
+    };
+
+    static double total = 0;
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n***** ANGIE SMALL SARI-SARI STORE ***");
+            System.out.println("1. View Menu");
+            System.out.println("2. Checkout");
+            System.out.println("3. Exit");
+
+            int choice = getIntInput("Choose: ");
+
+            if (choice == 1) {
+                showMenu();
+                int itemChoice = getIntInput("Select item number: ");
+                if (itemChoice < 1 || itemChoice > items.length) {
+                    System.out.println("Invalid item!");
+                    continue;
+                }
+
+                int qty = getIntInput("Enter quantity: ");
+                if (qty <= 0) {
+                    System.out.println("Invalid quantity!");
+                    continue;
+                }
+
+                double subtotal = prices[itemChoice - 1] * qty;
+                total += subtotal;
+
+                System.out.println(items[itemChoice - 1] + " x" + qty + " added! Subtotal: PHP " + subtotal);
+            } 
+            else if (choice == 2) {
+                checkout();
+            } 
+            else if (choice == 3) {
+                System.out.println("Goodbye!");
+                break;
+            } 
+            else {
+                System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    static void showMenu() {
+        System.out.println("\n--- MENU ---");
+        for (int i = 0; i < items.length; i++) {
+            System.out.println((i + 1) + ". " + items[i] + " - PHP " + prices[i]);
+        }
+    }
+
+    static void checkout() {
+        if (total == 0) {
+            System.out.println("Cart is empty.");
+            return;
+        }
+
+        System.out.println("\n***** CHECKOUT ***");
+        System.out.println("Total: PHP " + total);
+
+        double payment = getDoubleInput("Enter payment: ");
+        if (payment < total) {
+            System.out.println("Insufficient payment!");
+        } else {
+            double change = payment - total;
+            System.out.println("Payment: PHP " + payment);
+            System.out.println("Change: PHP " + change);
+            System.out.println("Thank you for shopping!");
+            total = 0; 
+        }
+    }
+
+    static int getIntInput(String msg) {
+        while (true) {
+            try {
+                System.out.print(msg);
+                return input.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Numbers only.");
+                input.nextLine(); 
+            }
+        }
+    }
+
+  
+    static double getDoubleInput(String msg) {
+        while (true) {
+            try {
+                System.out.print(msg);
+                return input.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Numbers only.");
+                input.nextLine();
+            }
+        }
+    }
+}
